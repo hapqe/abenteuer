@@ -1,8 +1,8 @@
 module Tournament (demonstrateTournament) where
 
-import RandomInts (getRandomIntsFast)
 import Control.DeepSeq
-import Data.Time ( diffUTCTime, getCurrentTime )
+import Data.Time (diffUTCTime, getCurrentTime)
+import RandomInts (getRandomIntsFast)
 
 data Tree x = Empty | Leaf x | Branch x (Tree x) (Tree x) deriving (Show)
 
@@ -37,7 +37,6 @@ traverseTree xs (Branch x l r) = x : traverseTree xs (createBranch l r)
 tournamentSort :: (Ord a) => [a] -> [a]
 tournamentSort [] = []
 tournamentSort xs = traverseTree [] $ createTree $ map Leaf xs
-
 
 demonstrateTournament :: Int -> IO ()
 demonstrateTournament n = do
