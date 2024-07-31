@@ -1,8 +1,4 @@
-module Tournament (demonstrateTournament) where
-
-import Control.DeepSeq
-import Data.Time (diffUTCTime, getCurrentTime)
-import RandomInts (getRandomIntsFast)
+module Tournament (tournamentSort) where
 
 data Tree x = Empty | Leaf x | Branch x (Tree x) (Tree x) deriving (Show)
 
@@ -37,12 +33,3 @@ traverseTree xs (Branch x l r) = x : traverseTree xs (createBranch l r)
 tournamentSort :: (Ord a) => [a] -> [a]
 tournamentSort [] = []
 tournamentSort xs = traverseTree [] $ createTree $ map Leaf xs
-
-demonstrateTournament :: Int -> IO ()
-demonstrateTournament n = do
-  input <- getRandomIntsFast n (1, 10000)
-  start <- getCurrentTime
-  let sorted = Tournament.tournamentSort input
-  -- let sorted = sort input
-  end <- sorted `deepseq` getCurrentTime
-  print $ "Sorted " ++ show (length sorted) ++ " elements in " ++ show (diffUTCTime end start)
