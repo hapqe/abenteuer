@@ -1,12 +1,20 @@
-module Demonstration (demonstrateSort) where
+{-# LANGUAGE MonoLocalBinds #-}
+
+module Demonstration (demonstrateSort, randomData) where
 
 import Control.DeepSeq
+import Control.Monad (replicateM)
 import Data.Time (diffUTCTime, getCurrentTime)
-import RandomInts (getRandomIntsFast)
+import System.Random.MWC
+import System.Random.MWC.Distributions
 
-demonstrateSort :: ([Int] -> [Int]) -> Int -> IO ()
+randomData :: GenIO -> Int -> IO [Double]
+randomData gen n = replicateM n (normal 0 1 gen)
+
+demonstrateSort :: ([Double] -> [Double]) -> Int -> IO ()
 demonstrateSort alg n = do
-  input <- getRandomIntsFast n (1, 10000)
+  gen <- createSystemRandom
+  input <- randomData gen n
   start <- getCurrentTime
   let sorted = alg input
   -- let sorted = sort input
